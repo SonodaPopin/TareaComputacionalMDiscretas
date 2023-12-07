@@ -9,12 +9,35 @@
  
 // Number of vertices in the graph
 #define V 23
- 
+ int to_int(char c[20]){
+    if(strcmp(c,"Arturo Prat")==0) return 0;//desde art prat
+    if(strcmp(c,"Serrano")==0) return 1;
+    if(strcmp(c,"Salas")==0) return 2;
+    if(strcmp(c,"Angol")==0) return 3;
+    if(strcmp(c,"Lincoyan")==0) return 4;
+    if(strcmp(c,"Rengo")==0) return 5;
+    if(strcmp(c,"Caupolican")==0) return 6;
+    if(strcmp(c,"Anival Pinto")==0) return 7;
+    if(strcmp(c,"Colo Colo")==0) return 8;
+    if(strcmp(c,"Castellon")==0) return 9;
+    if(strcmp(c,"Tucapel")==0) return 10;
+    if(strcmp(c,"Orompello")==0) return 11;
+    if(strcmp(c,"Ongolmo")==0) return 12;
+    if(strcmp(c,"Paicavi")==0) return 13;//hasta paicavi estan en paralelo
+    if(strcmp(c,"Chacabuco")==0) return 14;
+    if(strcmp(c,"Cochrane")==0) return 15;
+    if(strcmp(c,"San Martin")==0) return 16;
+    if(strcmp(c,"O'Higgins")==0) return 17;
+    if(strcmp(c,"Barros Arana")==0) return 18;
+    if(strcmp(c,"Freire")==0) return 19;
+    if(strcmp(c,"Maipu")==0) return 20;
+    if(strcmp(c,"Los Carrera")==0) return 21;
+    if(strcmp(c,"Pedro Aguirre Cerda")==0) return 22;
+}
 // A utility function to find the vertex with minimum
 // distance value, from the set of vertices not yet included
 // in shortest path tree
-int minDistance(int dist[], bool sptSet[])
-{
+int minDistance(int dist[], bool sptSet[]){
     // Initialize min value
     int min = INT_MAX, min_index;
  
@@ -27,18 +50,15 @@ int minDistance(int dist[], bool sptSet[])
  
 // A utility function to print the constructed distance
 // array
-void printSolution(int dist[])
-{
-    printf("Vertex \t\t Distance from Source\n");
-    for (int i = 0; i < V; i++)
-        printf("%d \t\t\t\t %d\n", i, dist[i]);
+void printSolution(int dist[], int final){
+    printf("Distancia del origen es:\t\t al vertice\n");
+    printf("%d \t\t\t\t %d\n", dist[final],final);
 }
  
 // Function that implements Dijkstra's single source
 // shortest path algorithm for a graph represented using
 // adjacency matrix representation
-void dijkstra(int graph[V][V], int src)
-{
+void dijkstra(int graph[V][V], int src, int final){
     int dist[V]; // The output array.  dist[i] will hold the
                  // shortest
     // distance from src to i
@@ -79,14 +99,11 @@ void dijkstra(int graph[V][V], int src)
                 && dist[u] + graph[u][v] < dist[v])
                 dist[v] = dist[u] + graph[u][v];
     }
- 
-    // print the constructed distance array
-    printSolution(dist);
+    printSolution(dist,final);
 }
 int main()
 {
-    
-    int cost[23][23]={
+    int mat[23][23]={
 {0,1,2,3,4,5,6,7,8,9,10,11,12,13,1,0,0,1,1,1,0,1,0},//arturo prat limite izquierdo
 {1,0,1,2,3,4,5,6,7,8,9,10,11,12,1,1,1,1,1,1,1,1,1},//serrano
 {2,1,0,1,2,3,4,5,6,7,8,9,10,11,1,1,1,1,1,1,1,1,1},//salas
@@ -109,7 +126,21 @@ int main()
 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0},//freire
 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0},//maipu
 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0},//carrera limite arriba
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}//diagonal ;
-    dijkstra(cost, cost[0][0]);// podemos pedir inicio especifico pero llegaremos a una calle solamente no una direccion
+{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};//diagonal ;
+    char *token;
+    char str[100]; 
+    fgets(str, sizeof(str), stdin);
+    int i=0;
+    token = strtok(str," ");
+    char *c1,*c2,*c3,*c4;
+    c1=token;
+    while( token != NULL ) {
+        token = strtok(NULL, " ");
+        if(i==0){ c2=token;}
+        if(i==1){ c3=token;}
+        if(i==2){ c4=token;}
+        i++;
+    }
+    dijkstra(mat, mat[to_int(c1)][(int)strtol(c2, NULL, 10)],to_int(c3));
     return 0;
 }
